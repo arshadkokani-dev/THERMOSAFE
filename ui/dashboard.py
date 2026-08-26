@@ -1,11 +1,16 @@
 import streamlit as st
 
 
-def show_dashboard(data):
+def show_dashboard(data, population_risks=None):
+
+    # ============================================================
+    # STYLING
+    # ============================================================
 
     st.markdown(
         """
         <style>
+
         .main-title {
             font-size: 42px;
             font-weight: 700;
@@ -25,29 +30,14 @@ def show_dashboard(data):
             margin-bottom: 12px;
         }
 
-        .risk-box {
-            padding: 24px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #111827, #1f2937);
-            border: 1px solid #374151;
-            margin-top: 10px;
-        }
-
-        .risk-number {
-            font-size: 42px;
-            font-weight: 700;
-        }
-
-        .risk-label {
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
         </style>
         """,
         unsafe_allow_html=True
     )
+
+    # ============================================================
+    # TITLE
+    # ============================================================
 
     st.markdown(
         '<div class="main-title">THERMOSAFE Command Center</div>',
@@ -55,9 +45,15 @@ def show_dashboard(data):
     )
 
     st.markdown(
-        '<div class="subtitle">Real-time environmental monitoring and human thermal risk intelligence.</div>',
+        '<div class="subtitle">'
+        'Real-time environmental monitoring and human thermal risk intelligence.'
+        '</div>',
         unsafe_allow_html=True
     )
+
+    # ============================================================
+    # CURRENT ENVIRONMENT
+    # ============================================================
 
     st.markdown(
         '<div class="section-title">Current Environment</div>',
@@ -67,7 +63,7 @@ def show_dashboard(data):
     temperature = data.get("temperature", 0)
     humidity = data.get("humidity", 0)
     heat_index = data.get("heat_index", temperature)
-    wind = data.get("wind", 0)
+    wind = data.get("wind", data.get("wind_speed", 0))
 
     cols = st.columns(4)
 
@@ -90,6 +86,10 @@ def show_dashboard(data):
         "WIND",
         f"{wind:.1f} km/h"
     )
+
+    # ============================================================
+    # HUMAN THERMAL RISK
+    # ============================================================
 
     st.markdown(
         '<div class="section-title">Human Thermal Risk</div>',
@@ -114,3 +114,89 @@ def show_dashboard(data):
     st.info(
         "THERMOSAFE has analyzed the current environmental conditions."
     )
+
+    # ============================================================
+    # SMART HEAT ALERT
+    # ============================================================
+
+    st.markdown(
+        '<div class="section-title">🚨 Smart Heat Alert</div>',
+        unsafe_allow_html=True
+    )
+
+    if risk_score >= 75:
+
+        st.error(
+            "EXTREME HEAT ALERT: Severe thermal stress detected. "
+            "Avoid prolonged outdoor exposure and activate immediate "
+            "cooling and hydration measures."
+        )
+
+    elif risk_score >= 50:
+
+        st.warning(
+            "HIGH HEAT ALERT: Elevated thermal stress detected. "
+            "Increase hydration, take frequent cooling breaks, "
+            "and limit prolonged heat exposure."
+        )
+
+    elif risk_score >= 30:
+
+        st.warning(
+            "MODERATE HEAT ALERT: Thermal stress is increasing. "
+            "Stay hydrated and monitor conditions, especially for "
+            "vulnerable individuals."
+        )
+
+    else:
+
+        st.success(
+            "LOW HEAT RISK: Current conditions are within a relatively "
+            "safe range. Continue normal hydration and monitoring."
+        )
+
+    # ============================================================
+    # VULNERABLE POPULATION RISK
+    # ============================================================
+
+    st.markdown(
+        '<div class="section-title">Vulnerable Population Risk</div>',
+        unsafe_allow_html=True
+    )
+
+    if population_risks:
+
+        selected_profile = st.selectbox(
+            "Select a population profile",
+            [
+                item["profile"]
+                for item in population_risks
+            ]
+        )
+
+        selected_risk = next(
+            item
+            for item in population_risks
+            if item["profile"] == selected_profile
+        )
+
+        profile_cols = st.columns(3)
+
+        profile_cols[0].metric(
+            "BASE ENVIRONMENTAL RISK",
+            f'{selected_risk["base_score"]}/100'
+        )
+
+        profile_cols[1].metric(
+            "HUMAN RISK",
+            f'{selected_risk["adjusted_score"]}/100'
+        )
+
+        profile_cols[2].metric(
+            "RISK LEVEL",
+            selected_risk["risk_level"]
+        )
+
+        st.info(
+            f'Why this profile? {selected_risk["reason"]}'
+        )

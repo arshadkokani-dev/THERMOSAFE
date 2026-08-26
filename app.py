@@ -5,6 +5,8 @@ from core.thermal import assess_thermal_risk
 from ui.dashboard import show_dashboard
 from forecast.predictor import build_forecast_report
 from ui.forecast_view import show_forecast
+from core.risk import assess_all_populations
+from ui.simulator import show_simulator
 
 
 # --------------------------------------------------
@@ -84,6 +86,9 @@ thermal = assess_thermal_risk(
     wind_speed=wind_speed,
 )
 
+st.session_state["risk_score"] = thermal["risk_score"]
+st.session_state["risk_level"] = thermal["risk_level"]
+
 
 # --------------------------------------------------
 # DATA FOR DASHBOARD
@@ -111,6 +116,11 @@ dashboard_data = {
 # --------------------------------------------------
 # RENDER DASHBOARD
 # --------------------------------------------------
+population_risks = assess_all_populations(
+    dashboard_data["risk_score"]
+)
+
+dashboard_data["population_risks"] = population_risks
 
 show_dashboard(dashboard_data)
 
@@ -122,3 +132,7 @@ forecast_report = build_forecast_report(
 )
 
 show_forecast(forecast_report)
+
+st.divider()
+
+show_simulator(dashboard_data)
