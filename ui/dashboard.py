@@ -111,6 +111,37 @@ def show_dashboard(data, population_risks=None):
         risk_level
     )
 
+    # ============================================================
+    # LIVE THERMAL RISK LEVEL
+    # ============================================================
+
+    st.markdown(
+        '<div class="section-title">🔥 Live Thermal Risk Level</div>',
+        unsafe_allow_html=True
+    )
+
+    st.metric(
+        "CURRENT THERMAL RISK",
+        f"{risk_score}/100"
+    )
+
+    if risk_level == "EXTREME":
+        st.error("🔴 EXTREME — Immediate protective action recommended.")
+
+    elif risk_level == "HIGH":
+        st.warning("🟠 HIGH — Reduce heat exposure and increase cooling breaks.")
+
+    elif risk_level == "MODERATE":
+        st.warning("🟡 MODERATE — Stay hydrated and continue monitoring conditions.")
+
+    else:
+        st.success("🟢 LOW — Current thermal conditions are relatively safe.")
+
+    st.progress(
+        min(max(risk_score / 100, 0.0), 1.0),
+        text=f"Thermal Risk Level — {risk_score}/100"
+    )
+
     st.info(
         "THERMOSAFE has analyzed the current environmental conditions."
     )
@@ -124,32 +155,26 @@ def show_dashboard(data, population_risks=None):
         unsafe_allow_html=True
     )
 
-    if risk_score >= 75:
-
+    if risk_level == "EXTREME":
         st.error(
             "EXTREME HEAT ALERT: Severe thermal stress detected. "
             "Avoid prolonged outdoor exposure and activate immediate "
             "cooling and hydration measures."
         )
 
-    elif risk_score >= 50:
-
+    elif risk_level == "HIGH":
         st.warning(
             "HIGH HEAT ALERT: Elevated thermal stress detected. "
-            "Increase hydration, take frequent cooling breaks, "
-            "and limit prolonged heat exposure."
+            "Increase hydration and take frequent cooling breaks."
         )
 
-    elif risk_score >= 30:
-
+    elif risk_level == "MODERATE":
         st.warning(
             "MODERATE HEAT ALERT: Thermal stress is increasing. "
-            "Stay hydrated and monitor conditions, especially for "
-            "vulnerable individuals."
+            "Stay hydrated and monitor conditions carefully."
         )
 
     else:
-
         st.success(
             "LOW HEAT RISK: Current conditions are within a relatively "
             "safe range. Continue normal hydration and monitoring."
