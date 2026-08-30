@@ -122,6 +122,12 @@ population_risks = assess_all_populations(
 
 dashboard_data["population_risks"] = population_risks
 
+# --------------------------------------------------
+# SAVE SHARED DATA FOR OTHER PAGES
+# --------------------------------------------------
+
+st.session_state["dashboard_data"] = dashboard_data
+
 show_dashboard(dashboard_data)
 
 forecast_report = build_forecast_report(
@@ -130,6 +136,8 @@ forecast_report = build_forecast_report(
     current_wind=dashboard_data["wind_speed"],
     days=5,
 )
+
+st.session_state["forecast_report"] = forecast_report
 
 show_forecast(forecast_report)
 
