@@ -1,6 +1,7 @@
 import streamlit as st
 
 from core.recommendations import generate_safety_plan
+from core.ai_advisor import generate_ai_advice
 
 
 def show_dashboard(data, population_risks=None):
@@ -339,6 +340,37 @@ def show_dashboard(data, population_risks=None):
             st.success(
                 f'🟢 {action["title"]} — {action["message"]}'
             )
+
+    # ============================================================
+    # AI RISK ADVISOR
+    # ============================================================
+
+    st.markdown(
+        '<div class="section-title">🤖 THERMOSAFE AI Risk Advisor</div>',
+        unsafe_allow_html=True
+    )
+
+    ai_result = generate_ai_advice(
+        temperature=temperature,
+        humidity=humidity,
+        wind=wind,
+        heat_index=heat_index,
+        risk_score=risk_score,
+        risk_level=risk_level,
+        population=selected_profile
+    )
+
+    st.info(
+        f'**Current Assessment:** {ai_result["situation"]}'
+    )
+
+    st.write(
+        f'🔎 **Why:** {ai_result["explanation"]}'
+    )
+
+    st.success(
+        f'💡 **AI Recommendation:** {ai_result["advice"]}'
+    )
 
 
     # ============================================================
