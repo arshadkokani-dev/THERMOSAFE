@@ -86,19 +86,21 @@ def generate_ai_advice(
             f"limited cooling from wind ({wind:.1f} km/h)"
         )
 
-    if factors:
+    if heat_index > temperature + 2:
+        factors.append(
+            f"elevated apparent heat ({heat_index:.1f}°C)"
+        )
 
+    if factors:
         explanation = (
             "The main environmental contributors are "
             + ", ".join(factors)
             + "."
         )
-
     else:
-
         explanation = (
-            "Current temperature, humidity, and wind conditions "
-            "are not showing major environmental stress factors."
+            "Current temperature, humidity, wind, and apparent heat "
+            "conditions are not showing major environmental stress factors."
         )
 
     return {
