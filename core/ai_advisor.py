@@ -1,3 +1,6 @@
+from services.llm import generate_thermal_advice
+
+
 def generate_ai_advice(
     temperature,
     humidity,
@@ -5,59 +8,15 @@ def generate_ai_advice(
     heat_index,
     risk_score,
     risk_level,
-    population
+    population,
 ):
+    """
+    Generate the THERMOSAFE AI assessment.
 
-    if risk_level == "EXTREME":
-
-        situation = (
-            f"Extreme thermal stress is currently detected for "
-            f"{population.lower()}."
-        )
-
-        advice = (
-            "Avoid prolonged heat exposure immediately. "
-            "Move to a cool or shaded environment, maintain hydration, "
-            "and prioritize protection of vulnerable individuals."
-        )
-
-    elif risk_level == "HIGH":
-
-        situation = (
-            f"High thermal stress is currently detected for "
-            f"{population.lower()}."
-        )
-
-        advice = (
-            "Reduce prolonged outdoor exposure, take frequent cooling "
-            "breaks, and maintain regular hydration."
-        )
-
-    elif risk_level == "MODERATE":
-
-        situation = (
-            f"Moderate thermal stress is currently detected for "
-            f"{population.lower()}."
-        )
-
-        advice = (
-            "Maintain hydration, take cooling breaks during prolonged "
-            "outdoor activity, and continue monitoring conditions."
-        )
-
-    else:
-
-        situation = (
-            f"Current thermal conditions are relatively safe for "
-            f"{population.lower()}."
-        )
-
-        advice = (
-            "Normal activity can continue while maintaining normal "
-            "hydration and monitoring changing conditions."
-        )
-
-    # Explain the environmental drivers
+    Environmental calculations come from the thermal engine.
+    Groq interprets those verified results and generates the
+    human-readable advisory.
+    """
 
     factors = []
 
@@ -65,7 +24,6 @@ def generate_ai_advice(
         factors.append(
             f"high temperature ({temperature:.1f}°C)"
         )
-
     elif temperature >= 30:
         factors.append(
             f"elevated temperature ({temperature:.1f}°C)"
@@ -75,7 +33,6 @@ def generate_ai_advice(
         factors.append(
             f"high humidity ({humidity:.0f}%)"
         )
-
     elif humidity >= 60:
         factors.append(
             f"elevated humidity ({humidity:.0f}%)"
@@ -83,7 +40,7 @@ def generate_ai_advice(
 
     if wind <= 5:
         factors.append(
-            f"limited cooling from wind ({wind:.1f} km/h)"
+            f"limited wind cooling ({wind:.1f} km/h)"
         )
 
     if heat_index > temperature + 2:
@@ -99,12 +56,33 @@ def generate_ai_advice(
         )
     else:
         explanation = (
-            "Current temperature, humidity, wind, and apparent heat "
-            "conditions are not showing major environmental stress factors."
+            "Current environmental conditions are not "
+            "showing major thermal stress factors."
+        )
+
+    try:
+        advice = generate_thermal_advice(
+            temperature=temperature,
+            humidity=humidity,
+            wind=wind,
+            heat_index=heat_index,
+            risk_score=risk_score,
+            risk_level=risk_level,
+            population=population,
+        )
+
+    except Exception:
+        advice = (
+            "AI advisory is temporarily unavailable. "
+            "The displayed thermal risk assessment is still "
+            "based on the THERMOSAFE environmental risk engine."
         )
 
     return {
-        "situation": situation,
+        "situation": (
+            f"{risk_level.title()} thermal conditions "
+            f"detected for {population.lower()}."
+        ),
         "explanation": explanation,
         "advice": advice,
         "risk_score": risk_score,
