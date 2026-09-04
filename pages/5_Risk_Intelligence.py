@@ -1,6 +1,7 @@
 import streamlit as st
 
 from core.risk import assess_all_populations
+from core.ai_advisor import generate_ai_advice
 
 
 st.title("Risk Intelligence")
@@ -150,6 +151,45 @@ if analyze_population:
             "immediate cooling and protection measures."
         )
 
+        # --------------------------------------------------
+    # AI RISK ADVISOR
+    # --------------------------------------------------
+
+    st.subheader("THERMOSAFE AI Risk Advisor")
+
+    temperature = st.session_state.get(
+        "dashboard_data",
+        {}
+    ).get("temperature", 0)
+
+    humidity = st.session_state.get(
+        "dashboard_data",
+        {}
+    ).get("humidity", 0)
+
+    wind = st.session_state.get(
+        "dashboard_data",
+        {}
+    ).get("wind_speed", 0)
+
+    heat_index = st.session_state.get(
+        "dashboard_data",
+        {}
+    ).get("heat_index", temperature)
+
+    ai_result = generate_ai_advice(
+        temperature=temperature,
+        humidity=humidity,
+        wind=wind,
+        heat_index=heat_index,
+        risk_score=selected["adjusted_score"],
+        risk_level=selected["risk_level"],
+        population=selected_profile,
+    )
+
+    st.info(
+        ai_result["advice"]
+    )
 
 else:
 
@@ -158,3 +198,5 @@ else:
         "'Analyze Population Risk' to generate "
         "a vulnerability assessment."
     )
+
+    

@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from forecast.predictor import build_forecast_report
+
 
 # --------------------------------------------------
 # PAGE TITLE
@@ -22,10 +24,6 @@ dashboard_data = st.session_state.get(
     None
 )
 
-forecast_report = st.session_state.get(
-    "forecast_report",
-    None
-)
 
 
 # --------------------------------------------------
@@ -76,6 +74,15 @@ heat_index = dashboard_data.get(
     "heat_index",
     temperature
 )
+
+forecast_report = build_forecast_report(
+    current_temperature=temperature,
+    current_humidity=humidity,
+    current_wind=wind_speed,
+    days=5,
+)
+
+st.session_state["forecast_report"] = forecast_report
 
 
 # --------------------------------------------------

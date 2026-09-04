@@ -3,12 +3,8 @@ import streamlit as st
 from services.weather import get_location_weather
 from core.thermal import assess_thermal_risk
 from ui.dashboard import show_dashboard
-from forecast.predictor import build_forecast_report
-from ui.forecast_view import show_forecast
 from core.risk import assess_all_populations
-from ui.simulator import show_simulator
-from ui.risk_map import show_risk_map
-import pandas as pd
+from forecast.predictor import build_forecast_report
 
 
 # --------------------------------------------------
@@ -130,8 +126,6 @@ dashboard_data["population_risks"] = population_risks
 
 st.session_state["dashboard_data"] = dashboard_data
 
-show_dashboard(dashboard_data)
-
 forecast_report = build_forecast_report(
     current_temperature=dashboard_data["temperature"],
     current_humidity=dashboard_data["humidity"],
@@ -141,69 +135,6 @@ forecast_report = build_forecast_report(
 
 st.session_state["forecast_report"] = forecast_report
 
-show_forecast(forecast_report)
+show_dashboard(dashboard_data)
 
-# --------------------------------------------------
-# HYPERLOCAL THERMAL RISK MAP
-# --------------------------------------------------
 
-st.divider()
-
-st.markdown(
-    "## 🗺️ THERMOSAFE Risk Map"
-)
-
-st.caption(
-    "Thermal-risk intelligence across monitored locations."
-)
-
-try:
-
-    locations_df = pd.read_csv(
-        "data/locations.csv"
-    )
-
-    risk_locations = []
-
-    for _, row in locations_df.iterrows():
-
-        try:
-
-            city = row["location"]
-
-            location_weather = get_location_weather(
-                city
-            )
-
-            location_thermal = assess_thermal_risk(
-                temperature_c=location_weather["temperature"],
-                humidity=location_weather["humidity"],
-                wind_speed=location_weather["wind"],
-            )
-
-            risk_locations.append(
-                {
-                    "location": city,
-                    "latitude": row["latitude"],
-                    "longitude": row["longitude"],
-                    "temperature": location_weather["temperature"],
-                    "humidity": location_weather["humidity"],
-                    "risk_score": location_thermal["risk_score"],
-                    "risk_level": location_thermal["risk_level"],
-                }
-            )
-
-        except Exception:
-            continue
-
-    show_risk_map(risk_locations)
-
-except Exception as error:
-
-    st.error(
-        f"Unable to load risk map: {error}"
-    )
-
-st.divider()
-
-show_simulator(dashboard_data)

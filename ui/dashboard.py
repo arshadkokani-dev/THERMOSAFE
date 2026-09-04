@@ -184,169 +184,85 @@ def show_dashboard(data, population_risks=None):
         )
 
     # ============================================================
-    # POPULATION SELECTION
-    # ============================================================
-
-    selected_profile = "General Adult"
-
-    if population_risks:
-
-        selected_profile = st.selectbox(
-            "Select population profile",
-            [
-                item["profile"]
-                for item in population_risks
-            ],
-            key="population_profile"
-        )
-
-    # ============================================================
-    # EXPLAINABLE RISK INTELLIGENCE
+    # 5-DAY THERMAL OUTLOOK
     # ============================================================
 
     st.markdown(
-        '<div class="section-title">🔎 Why This Risk?</div>',
+        '<div class="section-title">5-Day Thermal Outlook</div>',
         unsafe_allow_html=True
     )
 
-    factors = []
-
-    if temperature >= 35:
-        factors.append(
-            "🌡️ High temperature is increasing thermal stress."
-        )
-
-    elif temperature >= 30:
-        factors.append(
-            "🌡️ Elevated temperature is contributing to thermal stress."
-        )
-
-    else:
-        factors.append(
-            "🌡️ Temperature is currently within a relatively moderate range."
-        )
-
-
-    if humidity >= 80:
-        factors.append(
-            f"💧 Very high humidity ({humidity:.0f}%) is reducing "
-            "the body's ability to cool through sweating."
-        )
-
-    elif humidity >= 60:
-        factors.append(
-            f"💧 Elevated humidity ({humidity:.0f}%) may reduce "
-            "cooling efficiency."
-        )
-
-    else:
-        factors.append(
-            f"💧 Humidity ({humidity:.0f}%) is providing "
-            "relatively better cooling conditions."
-        )
-
-
-    if wind <= 2:
-        factors.append(
-            f"💨 Very low wind ({wind:.1f} km/h) provides "
-            "limited air movement for cooling."
-        )
-
-    elif wind <= 8:
-        factors.append(
-            f"💨 Moderate air movement ({wind:.1f} km/h) "
-            "provides some cooling."
-        )
-
-    else:
-        factors.append(
-            f"💨 Stronger wind ({wind:.1f} km/h) improves "
-            "evaporative cooling."
-        )
-
-
-    for factor in factors:
-        st.write(factor)
-
-
-    if risk_score >= 75:
-
-        st.error(
-            "Overall interpretation: Severe thermal conditions "
-            "require immediate protective action."
-        )
-
-    elif risk_score >= 50:
-
-        st.warning(
-            "Overall interpretation: Elevated thermal stress "
-            "requires increased hydration and cooling breaks."
-        )
-
-    elif risk_score >= 30:
-
-        st.warning(
-            "Overall interpretation: Thermal stress is increasing. "
-            "Continue monitoring conditions carefully."
-        )
-
-    else:
-
-        st.success(
-            "Overall interpretation: Current environmental conditions "
-            "present relatively low thermal stress."
-        )
-
-
-    # ============================================================
-    # PERSONALIZED SAFETY ACTION PLAN
-    # ============================================================
-
-    st.markdown(
-        '<div class="section-title">🛡️ Personalized Safety Action Plan</div>',
-        unsafe_allow_html=True
+    forecast_report = st.session_state.get(
+        "forecast_report",
+        None
     )
 
-    safety_plan = generate_safety_plan(
-        risk_score=risk_score,
-        risk_level=risk_level,
-        population=selected_profile
-    )
+    if forecast_report:
 
-    for action in safety_plan:
+        forecast_data = forecast_report.get(
+            "forecast",
+            forecast_report
+        )
 
-        priority = action["priority"]
+        if isinstance(forecast_data, list) and forecast_data:
 
-        if priority == "CRITICAL":
-
-            st.error(
-                f'🚨 {action["title"]} — {action["message"]}'
+            forecast_cols = st.columns(
+                min(len(forecast_data), 5)
             )
 
-        elif priority == "HIGH":
+            for index, day in enumerate(
+                forecast_data[:5]
+            ):
 
-            st.warning(
-                f'⚠️ {action["title"]} — {action["message"]}'
-            )
+                day_temperature = day.get(
+                    "temperature",
+                    temperature
+                )
 
-        elif priority == "MODERATE":
+                day_risk = day.get(
+                    "risk_score",
+                    risk_score
+                )
 
-            st.info(
-                f'🟡 {action["title"]} — {action["message"]}'
-            )
+                day_level = day.get(
+                    "risk_level",
+                    "UNKNOWN"
+                )
+
+                with forecast_cols[index]:
+
+                    st.metric(
+                        f"DAY {index + 1}",
+                        f"{day_temperature:.1f} °C"
+                    )
+
+                    st.caption(
+                        f"Risk {day_risk}/100"
+                    )
+
+                    st.write(
+                        day_level
+                    )
 
         else:
 
-            st.success(
-                f'🟢 {action["title"]} — {action["message"]}'
+            st.info(
+                "Forecast data is currently unavailable."
             )
+
+    else:
+
+        st.info(
+            "Run an environmental analysis to view "
+            "the 5-day thermal outlook."
+        )
 
     # ============================================================
     # AI RISK ADVISOR
     # ============================================================
 
     st.markdown(
-        '<div class="section-title">🤖 THERMOSAFE AI Risk Advisor</div>',
+        '<div class="section-title">THERMOSAFE AI Risk Advisor</div>',
         unsafe_allow_html=True
     )
 
@@ -357,56 +273,9 @@ def show_dashboard(data, population_risks=None):
         heat_index=heat_index,
         risk_score=risk_score,
         risk_level=risk_level,
-        population=selected_profile
+        population="General Adult"
     )
 
     st.info(
-        f'**Current Assessment:** {ai_result["situation"]}'
+        ai_result["advice"]
     )
-
-    st.write(
-        f'🔎 **Why:** {ai_result["explanation"]}'
-    )
-
-    st.success(
-        f'💡 **AI Recommendation:** {ai_result["advice"]}'
-    )
-
-
-    # ============================================================
-    # VULNERABLE POPULATION RISK
-    # ============================================================
-
-    st.markdown(
-        '<div class="section-title">Vulnerable Population Risk</div>',
-        unsafe_allow_html=True
-    )
-
-    if population_risks:
-
-        selected_risk = next(
-            item
-            for item in population_risks
-            if item["profile"] == selected_profile
-        )
-
-        profile_cols = st.columns(3)
-
-        profile_cols[0].metric(
-            "BASE ENVIRONMENTAL RISK",
-            f'{selected_risk["base_score"]}/100'
-        )
-
-        profile_cols[1].metric(
-            "HUMAN RISK",
-            f'{selected_risk["adjusted_score"]}/100'
-        )
-
-        profile_cols[2].metric(
-            "RISK LEVEL",
-            selected_risk["risk_level"]
-        )
-
-        st.info(
-            f'Why this profile? {selected_risk["reason"]}'
-        )
