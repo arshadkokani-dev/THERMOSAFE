@@ -38,6 +38,11 @@ def apply_theme():
         display: inline-block;
         vertical-align: middle;
         flex-shrink: 0;
+
+        /* Force dark SVG artwork to become visible */
+        filter: brightness(0) saturate(100%)
+                invert(73%) sepia(82%) saturate(1645%)
+                hue-rotate(163deg) brightness(101%) contrast(101%);
     }
 
     /* ---------- Section Titles ---------- */
@@ -252,6 +257,76 @@ def apply_theme():
         margin-top: 5px;
     }
 
+    /* ---------- Forecast Intelligence ---------- */
+
+    .forecast-card {
+        min-height: 175px;
+        padding: 18px;
+        border-radius: 16px;
+        background:
+            linear-gradient(
+                145deg,
+                rgba(15, 23, 42, 0.98),
+                rgba(15, 23, 42, 0.78)
+            );
+        border: 1px solid rgba(56, 189, 248, 0.14);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+        transition:
+            transform 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .forecast-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(56, 189, 248, 0.35);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .forecast-day {
+        color: #60a5fa;
+        font-size: 0.68rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .forecast-temperature {
+        color: #f8fafc;
+        font-size: 1.65rem;
+        font-weight: 750;
+        margin-top: 13px;
+    }
+
+    .forecast-risk {
+        color: #94a3b8;
+        font-size: 0.76rem;
+        margin-top: 5px;
+    }
+
+    .forecast-risk-bar {
+        width: 100%;
+        height: 5px;
+        margin-top: 14px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.12);
+        overflow: hidden;
+    }
+
+    .forecast-risk-fill {
+        height: 100%;
+        min-width: 3px;
+        border-radius: 999px;
+    }
+
+    .forecast-risk-label {
+        color: #64748b;
+        font-size: 0.62rem;
+        margin-top: 7px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
     /* ---------- Risk Pills ---------- */
 
     .risk-pill {
@@ -287,6 +362,203 @@ def apply_theme():
         color: #f87171;
         border: 1px solid rgba(239, 68, 68, 0.3);
     }
+
+    .risk-meter {
+        width: 100%;
+        height: 8px;
+        margin-top: 22px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.18);
+        overflow: hidden;
+    }
+
+    .risk-meter-fill {
+        height: 100%;
+        min-width: 3px;
+        border-radius: 999px;
+        transition: width 0.45s ease;
+    }
+
+    .risk-meter-scale {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 7px;
+        color: #64748b;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    /* ---------- Alert & Risk Explanation ---------- */
+
+    .alert-card,
+    .explanation-card {
+        min-height: 150px;
+        padding: 22px;
+        border-radius: 16px;
+        background: linear-gradient(
+            145deg,
+            rgba(15, 23, 42, 0.96),
+            rgba(15, 23, 42, 0.78)
+        );
+        border: 1px solid rgba(56, 189, 248, 0.14);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .alert-card {
+        border-left: 3px solid #38bdf8;
+    }
+
+    .explanation-card {
+        border-left: 3px solid #60a5fa;
+    }
+
+    .alert-status,
+    .explanation-label {
+        color: #60a5fa;
+        font-size: 0.65rem;
+        font-weight: 750;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .alert-title {
+        color: #f8fafc;
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-top: 8px;
+    }
+
+    .alert-message,
+    .explanation-text {
+        color: #cbd5e1;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        margin-top: 8px;
+    }
+
+    /* ---------- AI Advisor ---------- */
+
+.ai-card {
+    padding: 26px;
+    border-radius: 18px;
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(56, 189, 248, 0.12),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(15, 23, 42, 0.98),
+            rgba(12, 27, 48, 0.88)
+        );
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.22);
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ai-status {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.10);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #38bdf8;
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.ai-advice {
+    margin-top: 12px;
+    color: #dbeafe;
+    line-height: 1.75;
+}
+
+/* ---------- Responsive Layout ---------- */
+
+@media (max-width: 900px) {
+
+    .risk-hero {
+        padding: 24px;
+    }
+
+    .risk-hero-content {
+        gap: 20px;
+    }
+
+    .metric-card {
+        min-height: 130px;
+        padding: 17px;
+    }
+
+    .forecast-card {
+        min-height: 155px;
+        padding: 16px;
+    }
+
+    .ai-card {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .thermosafe-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .risk-hero {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .risk-score {
+        font-size: 3rem;
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+    }
+
+    .metric-card {
+        min-height: 120px;
+        padding: 15px;
+    }
+
+    .metric-value {
+        font-size: 1.45rem;
+    }
+
+    .forecast-card {
+        min-height: 145px;
+    }
+
+    .alert-card,
+    .explanation-card {
+        min-height: 130px;
+        padding: 18px;
+    }
+
+    .ai-card {
+        padding: 18px;
+    }
+
+    .ai-advice {
+        font-size: 0.86rem;
+        line-height: 1.65;
+    }
+}
 
     </style>
     """

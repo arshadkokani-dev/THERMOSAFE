@@ -41,6 +41,7 @@ def show_dashboard(data, population_risks=None):
 
     risk_score = data.get("risk_score", 0)
     risk_level = data.get("risk_level", "UNKNOWN")
+    risk_meter_width = max(0, min(100, float(risk_score)))
 
     location = html.escape(
         str(data.get("location", "Unknown location"))
@@ -161,6 +162,16 @@ def show_dashboard(data, population_risks=None):
 
                         <div class="risk-description">
                             {risk_description}
+                        </div>
+                            <div class="risk-meter">
+                            <div
+                                class="risk-meter-fill"
+                                style="width: {risk_meter_width}%; background: {risk_color};"
+                            ></div>
+                        </div>
+                        <div class="risk-meter-scale">
+                            <span>Low</span>
+                            <span>Extreme</span>
                         </div>
 
                     </div>
@@ -445,24 +456,23 @@ def show_dashboard(data, population_risks=None):
                     <span>Smart Heat Alert</span>
                 </div>
 
-                <div class="intelligence-card">
+                <div class="alert-card">
 
-                    <div class="card-label">
+                    <div class="alert-status">
                         CURRENT STATUS
                     </div>
 
-                    <div class="card-title">
+                    <div class="alert-title">
                         {alert_title}
                     </div>
 
-                    <div class="card-text">
+                    <div class="alert-message">
                         {alert_message}
                     </div>
 
                 </div>
                 """
             ),
-            
         )
 
     # ------------------------------------------------------------
@@ -479,16 +489,19 @@ def show_dashboard(data, population_risks=None):
                     <span>Why This Risk?</span>
                 </div>
 
-                <div class="intelligence-card">
+                <div class="explanation-card">
 
-                    <div class="card-text">
+                    <div class="explanation-label">
+                        ENVIRONMENTAL FACTORS
+                    </div>
+
+                    <div class="explanation-text">
                         {risk_explanation}
                     </div>
 
                 </div>
                 """
             ),
-            
         )
 
     # ------------------------------------------------------------
@@ -556,6 +569,11 @@ def show_dashboard(data, population_risks=None):
 
                 with forecast_columns[index]:
 
+                    day_risk_width = max(
+                        0,
+                        min(100, float(day_risk))
+                    )
+
                     st.html(
                         dedent(
                             f"""
@@ -573,6 +591,20 @@ def show_dashboard(data, population_risks=None):
                                     Thermal risk: {day_risk}/100
                                 </div>
 
+                                <div class="forecast-risk-bar">
+                                    <div
+                                        class="forecast-risk-fill"
+                                        style="
+                                            width: {day_risk_width}%;
+                                            background: {day_config["color"]};
+                                        "
+                                    ></div>
+                                </div>
+
+                                <div class="forecast-risk-label">
+                                    Risk level
+                                </div>
+
                                 <div class="risk-pill {day_config["class"]}">
                                     {day_level}
                                 </div>
@@ -580,9 +612,7 @@ def show_dashboard(data, population_risks=None):
                             </div>
                             """
                         ),
-                        
                     )
-
         else:
 
             st.info(
