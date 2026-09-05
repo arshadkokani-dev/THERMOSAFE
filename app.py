@@ -5,6 +5,7 @@ from core.thermal import assess_thermal_risk
 from ui.dashboard import show_dashboard
 from core.risk import assess_all_populations
 from forecast.predictor import build_forecast_report
+from ui.theme import apply_theme
 
 
 # --------------------------------------------------
@@ -16,6 +17,8 @@ st.set_page_config(
     page_icon="🌡️",
     layout="wide",
 )
+
+apply_theme()
 
 
 # --------------------------------------------------
