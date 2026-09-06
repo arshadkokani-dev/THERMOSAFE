@@ -1049,6 +1049,116 @@ def apply_theme():
         font-size: 0.86rem;
         line-height: 1.65;
         }
+
+
+        /* =========================================================
+        THERMAL RISK MAP
+        ========================================================= */
+
+        .map-location-card {
+            position: relative;
+            display: grid;
+            grid-template-columns: 42px 1fr auto;
+            gap: 14px;
+            align-items: center;
+
+            margin-bottom: 10px;
+            padding: 17px 18px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.98),
+                    rgba(15, 23, 42, 0.78)
+                );
+
+            border: 1px solid rgba(148, 163, 184, 0.14);
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.16);
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .map-location-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .map-location-rank {
+            color: #60a5fa;
+            font-size: 0.8rem;
+            font-weight: 750;
+        }
+
+        .map-location-name {
+            color: #f8fafc;
+            font-size: 0.98rem;
+            font-weight: 700;
+        }
+
+        .map-location-meta {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 0.72rem;
+        }
+
+        .map-location-risk {
+            text-align: right;
+        }
+
+        .map-risk-score {
+            color: #f8fafc;
+            font-size: 1.35rem;
+            font-weight: 750;
+        }
+
+        .map-risk-bar {
+            grid-column: 2 / 4;
+
+            width: 100%;
+            height: 4px;
+
+            margin-top: -3px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(148, 163, 184, 0.12);
+
+            overflow: hidden;
+        }
+
+        .map-risk-fill {
+            height: 100%;
+            min-width: 3px;
+            border-radius: 999px;
+        }
+
+        @media (max-width: 640px) {
+
+            .map-location-card {
+                grid-template-columns: 32px 1fr auto;
+                gap: 10px;
+                padding: 14px;
+            }
+
+            .map-location-name {
+                font-size: 0.9rem;
+            }
+
+            .map-location-meta {
+                font-size: 0.67rem;
+            }
+
+            .map-risk-score {
+                font-size: 1.15rem;
+            }
+        }
     
     </style>
     """
