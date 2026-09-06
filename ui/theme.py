@@ -1343,6 +1343,206 @@ def apply_theme():
             }
 
         }
+
+        /* =========================================================
+        RISK INTELLIGENCE
+        ========================================================= */
+
+        .risk-population-card {
+            position: relative;
+            overflow: hidden;
+
+            min-height: 125px;
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.98),
+                    rgba(15, 23, 42, 0.78)
+                );
+
+            border: 1px solid rgba(148, 163, 184, 0.14);
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .risk-population-card::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 3px;
+            height: 100%;
+
+            background: #38bdf8;
+        }
+
+        .risk-population-score {
+            margin-top: 12px;
+
+            color: #f8fafc;
+
+            font-size: 1.65rem;
+            font-weight: 750;
+        }
+
+        .risk-population-score span {
+            color: #64748b;
+            font-size: 0.72rem;
+            font-weight: 500;
+        }
+
+        .risk-population-level {
+            margin-top: 7px;
+
+            color: #60a5fa;
+
+            font-size: 0.7rem;
+            font-weight: 750;
+        }
+
+        .risk-action-card {
+            position: relative;
+
+            margin-bottom: 10px;
+            padding: 17px 20px 17px 22px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(15, 23, 42, 0.78);
+
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .risk-action-card::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            width: 3px;
+            height: 100%;
+
+            border-radius: 3px;
+            background: #38bdf8;
+        }
+
+        .risk-action-card.critical::before {
+            background: #f87171;
+        }
+
+        .risk-action-card.danger::before {
+            background: #fb923c;
+        }
+
+        .risk-action-card.warning::before {
+            background: #facc15;
+        }
+
+        .risk-action-card.safe::before {
+            background: #4ade80;
+        }
+
+        .risk-action-priority {
+            margin-bottom: 5px;
+
+            color: #64748b;
+
+            font-size: 0.65rem;
+            font-weight: 750;
+            letter-spacing: 0.08em;
+        }
+
+        .risk-action-title {
+            color: #f8fafc;
+
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .risk-action-message {
+            margin-top: 5px;
+
+            color: #94a3b8;
+
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .risk-ai-card {
+            position: relative;
+            overflow: hidden;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.98),
+                    rgba(15, 23, 42, 0.78)
+                );
+
+            border: 1px solid rgba(56, 189, 248, 0.18);
+
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.16);
+        }
+
+        .risk-ai-card::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            width: 3px;
+            height: 100%;
+
+            background: #38bdf8;
+        }
+
+        .risk-ai-label {
+            color: #38bdf8;
+
+            font-size: 0.68rem;
+            font-weight: 750;
+            letter-spacing: 0.08em;
+        }
+
+        .risk-ai-text {
+            margin-top: 12px;
+
+            color: #cbd5e1;
+
+            font-size: 0.88rem;
+            line-height: 1.65;
+        }
+
+        @media (max-width: 640px) {
+
+            .risk-population-card {
+                margin-bottom: 10px;
+            }
+
+            .risk-population-score {
+                font-size: 1.45rem;
+            }
+
+            .risk-ai-card {
+                padding: 18px;
+            }
+
+        }
     
     </style>
     """

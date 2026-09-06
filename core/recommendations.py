@@ -90,7 +90,7 @@ def generate_safety_plan(
 
     if population in [
         "Elderly",
-        "Children",
+        "Child",
         "Outdoor Workers"
     ]:
 
