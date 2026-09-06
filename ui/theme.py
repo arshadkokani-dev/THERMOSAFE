@@ -1159,6 +1159,190 @@ def apply_theme():
                 font-size: 1.15rem;
             }
         }
+
+        /* =========================================================
+        SIMULATION LAB
+        ========================================================= */
+
+        .simulation-delta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+
+            margin: 18px 0 22px;
+            padding: 14px 16px;
+
+            border-radius: 14px;
+
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .simulation-delta > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .simulation-delta-label {
+            color: #94a3b8;
+            font-size: 0.75rem;
+        }
+
+        .simulation-delta strong {
+            color: #38bdf8;
+            font-size: 0.82rem;
+        }
+
+        .simulation-result-card {
+            position: relative;
+            overflow: hidden;
+
+            min-height: 125px;
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.98),
+                    rgba(15, 23, 42, 0.78)
+                );
+
+            border: 1px solid rgba(148, 163, 184, 0.14);
+
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.16);
+        }
+
+        .simulation-result-card::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 3px;
+            height: 100%;
+
+            background: #38bdf8;
+        }
+
+        .simulation-score {
+            margin-top: 12px;
+
+            color: #f8fafc;
+
+            font-size: 2rem;
+            font-weight: 750;
+        }
+
+        .simulation-score span {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .simulation-level {
+            margin-top: 14px;
+
+            color: #38bdf8;
+
+            font-size: 1.15rem;
+            font-weight: 750;
+        }
+
+        .simulation-comparison-card {
+            padding: 20px;
+
+            border-radius: 15px;
+
+            background: rgba(15, 23, 42, 0.72);
+
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .simulation-comparison-score {
+            margin-top: 10px;
+
+            color: #f8fafc;
+
+            font-size: 1.7rem;
+            font-weight: 750;
+        }
+
+        .simulation-comparison-level {
+            margin-top: 6px;
+
+            color: #60a5fa;
+
+            font-size: 0.75rem;
+            font-weight: 750;
+        }
+
+        .simulation-population-card {
+            padding: 24px;
+
+            margin-bottom: 18px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.98),
+                    rgba(15, 23, 42, 0.78)
+                );
+
+            border: 1px solid rgba(56, 189, 248, 0.14);
+        }
+
+        .simulation-population-number {
+            color: #f8fafc;
+
+            font-size: 2rem;
+            font-weight: 750;
+        }
+
+        .simulation-population-label {
+            margin-top: 3px;
+
+            color: #64748b;
+
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .simulation-population-text {
+            margin-top: 12px;
+
+            color: #94a3b8;
+
+            font-size: 0.82rem;
+        }
+
+        .simulation-population-text strong {
+            color: #e2e8f0;
+        }
+
+        @media (max-width: 640px) {
+
+            .simulation-delta {
+                grid-template-columns: 1fr;
+            }
+
+            .simulation-result-card {
+                margin-bottom: 10px;
+            }
+
+            .simulation-score {
+                font-size: 1.7rem;
+            }
+
+        }
     
     </style>
     """
