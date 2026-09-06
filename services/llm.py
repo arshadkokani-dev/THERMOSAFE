@@ -1,5 +1,6 @@
 import os
 
+import streamlit as st
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -10,11 +11,21 @@ MODEL_NAME = "openai/gpt-oss-120b"
 
 
 def get_groq_client():
+    """Create a Groq client using local .env or Streamlit Secrets."""
+
     api_key = os.getenv("GROQ_API_KEY")
+
+    # Streamlit Cloud / deployment
+    if not api_key:
+        try:
+            api_key = st.secrets.get("GROQ_API_KEY")
+        except Exception:
+            api_key = None
 
     if not api_key:
         raise RuntimeError(
-            "GROQ_API_KEY is missing from the .env file."
+            "GROQ_API_KEY is not configured. "
+            "Add it to .env locally or Streamlit Secrets when deployed."
         )
 
     return Groq(api_key=api_key)

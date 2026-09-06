@@ -61,32 +61,22 @@ except Exception as error:
 # =========================================================
 
 risk_locations = []
+failed_locations = []
 
 
 for _, row in locations_df.iterrows():
 
+    city = str(row["location"]).strip()
+
     try:
 
-        city = row["location"]
+        location_weather = get_location_weather(city)
 
-        location_weather = (
-            get_location_weather(city)
+        location_thermal = assess_thermal_risk(
+            temperature_c=location_weather["temperature"],
+            humidity=location_weather["humidity"],
+            wind_speed=location_weather["wind"],
         )
-
-        location_thermal = (
-            assess_thermal_risk(
-                temperature_c=(
-                    location_weather["temperature"]
-                ),
-                humidity=(
-                    location_weather["humidity"]
-                ),
-                wind_speed=(
-                    location_weather["wind"]
-                ),
-            )
-        )
-
 
         risk_locations.append(
             {
@@ -122,10 +112,20 @@ for _, row in locations_df.iterrows():
             }
         )
 
-
     except Exception:
-        continue
+        failed_locations.append(city)
 
+# =========================================================
+# AVAILABILITY STATUS
+# =========================================================
+
+if failed_locations:
+
+    st.warning(
+        f"{len(failed_locations)} monitored location(s) "
+        "could not be updated right now: "
+        + ", ".join(failed_locations)
+    )
 
 # =========================================================
 # RENDER MAP

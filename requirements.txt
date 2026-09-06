@@ -7,5 +7,5 @@ streamlit-folium
 requests
 python-dotenv
 groq
-plotly
+
 
