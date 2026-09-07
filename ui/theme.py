@@ -1543,6 +1543,331 @@ def apply_theme():
             }
 
         }
+
+        /* =========================================================
+   THERMOSAFE SIDEBAR — FINAL UI POLISH
+   ========================================================= */
+
+[data-testid="stSidebar"] {
+    background:
+        linear-gradient(
+            180deg,
+            #07182d 0%,
+            #0a1d34 55%,
+            #08172a 100%
+        );
+    border-right: 1px solid rgba(56, 189, 248, 0.12);
+}
+
+
+/* ---------- Sidebar Brand ---------- */
+
+.thermosafe-sidebar-brand {
+    padding: 8px 4px 20px 4px;
+}
+
+.thermosafe-sidebar-logo {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #f8fafc;
+}
+
+.thermosafe-sidebar-logo::first-letter {
+    color: #38bdf8;
+}
+
+.thermosafe-sidebar-tagline {
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.74rem;
+    line-height: 1.4;
+}
+
+
+/* ---------- Navigation ---------- */
+
+[data-testid="stSidebarNav"] {
+    padding-top: 8px;
+    padding-bottom: 12px;
+}
+
+[data-testid="stSidebarNav"] ul {
+    gap: 5px;
+}
+
+[data-testid="stSidebarNav"] li {
+    margin: 0;
+}
+
+[data-testid="stSidebarNav"] a {
+    border-radius: 11px;
+    padding: 10px 12px;
+    color: #cbd5e1;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+[data-testid="stSidebarNav"] a:hover {
+    background: rgba(56, 189, 248, 0.08);
+    color: #f8fafc;
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(37, 99, 235, 0.42),
+            rgba(14, 116, 144, 0.24)
+        );
+    color: #f8fafc;
+    border-left: 3px solid #38bdf8;
+    box-shadow:
+        0 6px 22px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ---------- Navigation Icons ---------- */
+
+[data-testid="stSidebarNav"] a span {
+    color: #38bdf8;
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] span {
+    color: #67e8f9;
+}
+
+
+/* ---------- Environment Label ---------- */
+
+.sidebar-section-label {
+    margin-top: 14px;
+    margin-bottom: 8px;
+    color: #64748b;
+    font-size: 0.63rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+
+/* ---------- Sidebar Input ---------- */
+
+[data-testid="stSidebar"] input {
+    background: rgba(15, 23, 42, 0.72) !important;
+    border: 1px solid rgba(56, 189, 248, 0.18) !important;
+    color: #f8fafc !important;
+    border-radius: 11px !important;
+}
+
+[data-testid="stSidebar"] input:focus {
+    border-color: rgba(56, 189, 248, 0.55) !important;
+    box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.18) !important;
+}
+
+
+/* ---------- Analyze Button ---------- */
+
+[data-testid="stSidebar"] button[kind="primary"] {
+    border-radius: 11px;
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    background:
+        linear-gradient(
+            135deg,
+            #0ea5e9,
+            #2563eb
+        );
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow:
+        0 8px 22px rgba(37, 99, 235, 0.22);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+[data-testid="stSidebar"] button[kind="primary"]:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 11px 28px rgba(37, 99, 235, 0.30);
+}
+
+
+/* ---------- Footer ---------- */
+
+.thermosafe-sidebar-footer {
+    margin-top: 38px;
+    padding: 18px 4px 6px 4px;
+    text-align: center;
+}
+
+.thermosafe-footer-line {
+    height: 1px;
+    width: 100%;
+    margin-bottom: 18px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(56, 189, 248, 0.28),
+            transparent
+        );
+}
+
+.thermosafe-footer-title {
+    color: #64748b;
+    font-size: 0.69rem;
+    line-height: 1.5;
+}
+
+.thermosafe-footer-author {
+    margin-top: 7px;
+    color: #94a3b8;
+    font-size: 0.76rem;
+}
+
+.thermosafe-footer-author strong {
+    color: #38bdf8;
+    font-weight: 750;
+}
+
+
+/* ---------- Sidebar Mobile ---------- */
+
+@media (max-width: 768px) {
+
+    .thermosafe-sidebar-logo {
+        font-size: 1.35rem;
+    }
+
+    .thermosafe-sidebar-tagline {
+        font-size: 0.68rem;
+    }
+
+    .thermosafe-sidebar-footer {
+        margin-top: 26px;
+    }
+
+}
+
+     /* =========================================================
+   CUSTOM SIDEBAR NAVIGATION
+   ========================================================= */
+
+.thermosafe-sidebar-brand {
+    padding: 8px 4px 20px 4px;
+}
+
+.thermosafe-sidebar-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.thermosafe-sidebar-brand-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(56, 189, 248, 0.10);
+    border: 1px solid rgba(56, 189, 248, 0.20);
+    font-size: 18px;
+}
+
+.thermosafe-sidebar-logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #f8fafc;
+    line-height: 1.1;
+}
+
+.thermosafe-sidebar-tagline {
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.68rem;
+    line-height: 1.3;
+}
+
+.sidebar-section-label {
+    margin: 8px 0 8px 4px;
+    color: #64748b;
+    font-size: 0.63rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* Custom page links */
+
+[data-testid="stSidebar"] a {
+    border-radius: 10px;
+}
+
+[data-testid="stSidebar"] [data-testid="stPageLink"] a {
+    padding: 9px 11px;
+    color: #cbd5e1;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+[data-testid="stSidebar"] [data-testid="stPageLink"] a:hover {
+    background: rgba(56, 189, 248, 0.08);
+    color: #f8fafc;
+}
+
+[data-testid="stSidebar"] [data-testid="stPageLink"] svg {
+    color: #38bdf8;
+}
+
+/* Environment spacing */
+
+.thermosafe-environment-label {
+    margin-top: 20px;
+}
+
+/* Footer */
+
+.thermosafe-sidebar-footer {
+    margin-top: 34px;
+    padding: 16px 4px 8px 4px;
+    text-align: center;
+}
+
+.thermosafe-footer-line {
+    height: 1px;
+    width: 100%;
+    margin-bottom: 16px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(56, 189, 248, 0.28),
+        transparent
+    );
+}
+
+.thermosafe-footer-title {
+    color: #64748b;
+    font-size: 0.68rem;
+    line-height: 1.5;
+}
+
+.thermosafe-footer-author {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+}
+
+.thermosafe-footer-author strong {
+    color: #38bdf8;
+    font-weight: 750;
+}
     
     </style>
     """

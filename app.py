@@ -8,9 +8,9 @@ from forecast.predictor import build_forecast_report
 from ui.theme import apply_theme
 
 
-# --------------------------------------------------
+# =========================================================
 # PAGE CONFIG
-# --------------------------------------------------
+# =========================================================
 
 st.set_page_config(
     page_title="THERMOSAFE",
@@ -18,38 +18,173 @@ st.set_page_config(
     layout="wide",
 )
 
-apply_theme()
+
+# =========================================================
+# THEME
+# =========================================================
+
+st.html(apply_theme())
 
 
-# --------------------------------------------------
-# SIDEBAR
-# --------------------------------------------------
+# =========================================================
+# SIDEBAR BRAND
+# =========================================================
 
-st.sidebar.title("THERMOSAFE")
-st.sidebar.caption(
-    "Human Thermal Risk Intelligence"
+st.sidebar.html(
+    """
+    <div class="thermosafe-sidebar-brand">
+
+        <div class="thermosafe-sidebar-logo">
+            THERMOSAFE
+        </div>
+
+        <div class="thermosafe-sidebar-tagline">
+            Human Thermal Risk Intelligence
+        </div>
+
+    </div>
+    """
 )
+
+# =========================================================
+# PAGE DEFINITIONS
+# =========================================================
+
+def command_center_page():
+    show_dashboard(dashboard_data)
+
+
+command_center = st.Page(
+    command_center_page,
+    title="Command Center",
+    icon=":material/home:",
+    default=True,
+)
+
+forecast_page = st.Page(
+    "pages/2_Forecast_Analytics.py",
+    title="Forecast Analytics",
+    icon=":material/analytics:",
+)
+
+risk_map_page = st.Page(
+    "pages/3_Thermal_Risk_Map.py",
+    title="Thermal Risk Map",
+    icon=":material/map:",
+)
+
+simulation_page = st.Page(
+    "pages/4_Simulation_Lab.py",
+    title="Simulation Lab",
+    icon=":material/science:",
+)
+
+risk_intelligence_page = st.Page(
+    "pages/5_Risk_Intelligence.py",
+    title="Risk Intelligence",
+    icon=":material/psychology:",
+)
+
+
+# =========================================================
+# NAVIGATION
+# =========================================================
+
+pg = st.navigation(
+    [
+        command_center,
+        forecast_page,
+        risk_map_page,
+        simulation_page,
+        risk_intelligence_page,
+    ],
+    position="hidden",
+)
+
+
+# =========================================================
+# SIDEBAR NAVIGATION
+# =========================================================
+
+st.sidebar.html(
+    """
+    <div class="sidebar-section-label">
+        Navigation
+    </div>
+    """
+)
+
+
+st.sidebar.page_link(
+    command_center,
+    label="Command Center",
+    icon=":material/home:",
+)
+
+st.sidebar.page_link(
+    forecast_page,
+    label="Forecast Analytics",
+    icon=":material/analytics:",
+)
+
+st.sidebar.page_link(
+    risk_map_page,
+    label="Thermal Risk Map",
+    icon=":material/map:",
+)
+
+st.sidebar.page_link(
+    simulation_page,
+    label="Simulation Lab",
+    icon=":material/science:",
+)
+
+st.sidebar.page_link(
+    risk_intelligence_page,
+    label="Risk Intelligence",
+    icon=":material/psychology:",
+)
+
+
+# =========================================================
+# ENVIRONMENT
+# =========================================================
+
+st.sidebar.html(
+    """
+    <div class="sidebar-section-label thermosafe-environment-label">
+        Environment
+    </div>
+    """
+)
+
 
 location = st.sidebar.text_input(
     "Monitoring location",
     value="Pune",
+    label_visibility="collapsed",
 )
+
 
 analyze = st.sidebar.button(
-    "Analyze Conditions"
+    "Analyze Conditions",
+    type="primary",
+    use_container_width=True,
 )
 
 
-# --------------------------------------------------
+# =========================================================
 # GET WEATHER DATA
-# --------------------------------------------------
+# =========================================================
 
 if analyze or "weather" not in st.session_state:
 
     try:
+
         with st.spinner(
             "Fetching environmental conditions..."
         ):
+
             st.session_state.weather = (
                 get_location_weather(location)
             )
@@ -66,9 +201,9 @@ if analyze or "weather" not in st.session_state:
 weather = st.session_state.weather
 
 
-# --------------------------------------------------
+# =========================================================
 # CURRENT CONDITIONS
-# --------------------------------------------------
+# =========================================================
 
 temperature = weather["temperature"]
 humidity = weather["humidity"]
@@ -77,9 +212,9 @@ wind_speed = weather["wind"]
 location_name = weather["location"]
 
 
-# --------------------------------------------------
+# =========================================================
 # THERMAL RISK ENGINE
-# --------------------------------------------------
+# =========================================================
 
 thermal = assess_thermal_risk(
     temperature_c=temperature,
@@ -87,13 +222,19 @@ thermal = assess_thermal_risk(
     wind_speed=wind_speed,
 )
 
-st.session_state["risk_score"] = thermal["risk_score"]
-st.session_state["risk_level"] = thermal["risk_level"]
+
+st.session_state["risk_score"] = (
+    thermal["risk_score"]
+)
+
+st.session_state["risk_level"] = (
+    thermal["risk_level"]
+)
 
 
-# --------------------------------------------------
-# DATA FOR DASHBOARD
-# --------------------------------------------------
+# =========================================================
+# DASHBOARD DATA
+# =========================================================
 
 dashboard_data = {
     "location": location_name,
@@ -114,20 +255,31 @@ dashboard_data = {
 }
 
 
-# --------------------------------------------------
-# RENDER DASHBOARD
-# --------------------------------------------------
+# =========================================================
+# POPULATION RISK ANALYSIS
+# =========================================================
+
 population_risks = assess_all_populations(
     dashboard_data["risk_score"]
 )
 
-dashboard_data["population_risks"] = population_risks
+dashboard_data["population_risks"] = (
+    population_risks
+)
 
-# --------------------------------------------------
-# SAVE SHARED DATA FOR OTHER PAGES
-# --------------------------------------------------
 
-st.session_state["dashboard_data"] = dashboard_data
+# =========================================================
+# SAVE SHARED DATA
+# =========================================================
+
+st.session_state["dashboard_data"] = (
+    dashboard_data
+)
+
+
+# =========================================================
+# FORECAST REPORT
+# =========================================================
 
 forecast_report = build_forecast_report(
     current_temperature=dashboard_data["temperature"],
@@ -136,8 +288,36 @@ forecast_report = build_forecast_report(
     days=5,
 )
 
-st.session_state["forecast_report"] = forecast_report
+st.session_state["forecast_report"] = (
+    forecast_report
+)
 
-show_dashboard(dashboard_data)
+
+# =========================================================
+# SIDEBAR FOOTER
+# =========================================================
+
+st.sidebar.html(
+    """
+    <div class="thermosafe-sidebar-footer">
+
+        <div class="thermosafe-footer-line"></div>
+
+        <div class="thermosafe-footer-title">
+            Building a Cooler, Safer Tomorrow
+        </div>
+
+        <div class="thermosafe-footer-author">
+            By <strong>Arshad Kokani</strong>
+        </div>
+
+    </div>
+    """
+)
 
 
+# =========================================================
+# RUN SELECTED PAGE
+# =========================================================
+
+pg.run()
